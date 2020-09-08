@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madlevel2task2.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
-        createItemTouchHelper()
     }
 
     private fun initViews(){
@@ -34,11 +34,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         questionAdapter.notifyDataSetChanged()
+
+        createItemTouchHelper().attachToRecyclerView(binding.rvQuestions)
     }
 
 
     private fun createItemTouchHelper(): ItemTouchHelper {
-        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -50,8 +52,41 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                questions.removeAt(position)
-                questionAdapter.notifyDataSetChanged()
+                when(position){
+                    0 -> if(direction == ItemTouchHelper.LEFT) {
+                        questions.removeAt(position)
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    else{
+                        Snackbar.make(binding.rvQuestions, "Thats the wrong asnwer", Snackbar.LENGTH_SHORT).show()
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    1 -> if(direction == ItemTouchHelper.LEFT) {
+                        questions.removeAt(position)
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    else{
+                        Snackbar.make(binding.rvQuestions, "Thats the wrong asnwer", Snackbar.LENGTH_SHORT).show()
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    2 -> if(direction == ItemTouchHelper.RIGHT) {
+                        questions.removeAt(position)
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    else{
+                        Snackbar.make(binding.rvQuestions, "Thats the wrong asnwer", Snackbar.LENGTH_SHORT).show()
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    3 -> if(direction == ItemTouchHelper.RIGHT) {
+                        questions.removeAt(position)
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                    else{
+                        Snackbar.make(binding.rvQuestions, "Thats the wrong asnwer", Snackbar.LENGTH_SHORT).show()
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                }
+
             }
         }
         return ItemTouchHelper(callback)
